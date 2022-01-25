@@ -1,2 +1,2 @@
-# oxidizer
-A library for handling interop between c-sharp and rust
+# 🦀 Oxidizer 🦀
+A library for handling interop between C-Sharp and Rust.
