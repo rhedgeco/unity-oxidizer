@@ -1,7 +1,9 @@
 {
     "name": "Oxidizer",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "Unity.Collections"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
