@@ -1,0 +1,12 @@
+# initial ignore for everything
+/*
+/*/
+
+# whitelist important git files
+!.gitignore
+!.gitattributes
+!README.md
+
+# whitelist only important rust files and directories
+!/src/
+!Cargo.toml

@@ -1,0 +1,12 @@
+[package]
+name = "unity_oxidizer"
+version = "0.0.1"
+edition = "2021"
+authors = ["Ryan Hedgecock <rhedgeco@gmail.com>"]
+license = "MIT"
+description = "A library for interop between rust and unity engine"
+readme = "README.md"
+homepage = "https://github.com/rhedgeco/unity-oxidizer"
+repository = "https://github.com/rhedgeco/unity-oxidizer"
+keywords = ["unity3d", "interop"]
+categories = ["game-development"]
