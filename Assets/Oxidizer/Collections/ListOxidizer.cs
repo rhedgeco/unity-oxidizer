@@ -10,12 +10,12 @@ namespace Oxidizer.Collections
 {
     public class ListOxidizer<T> : IDisposable, IEnumerable<T> where T : unmanaged
     {
-        private unsafe RustyList* _rustyList;
         private NativeArray<T> _nativeArray;
+        private unsafe RustyList* _rustyList;
 
         public unsafe int Length => _rustyList->_length;
         public IntPtr RustyListPointer { get; }
-        public unsafe NativeArray<T> ExtractedNativeArray => _nativeArray.GetSubArray(0, _rustyList->_length);
+        public NativeArray<T> ExtractedNativeArray => _nativeArray.GetSubArray(0, Length);
 
         public unsafe ListOxidizer(int capacity)
         {
@@ -29,26 +29,26 @@ namespace Oxidizer.Collections
             _rustyList->_capacity = (UIntPtr) capacity;
         }
 
-        public unsafe T this[int index]
+        public T this[int index]
         {
             get
             {
-                if (index < 0 || index > _rustyList->_length)
+                if (index < 0 || index > Length)
                     throw new IndexOutOfRangeException($"Index {index} is out of range " +
-                                                       $"for range 0-{_rustyList->_length}");
+                                                       $"for range 0-{Length}");
                 return _nativeArray[index];
             }
 
             set
             {
-                if (index < 0 || index > _rustyList->_length)
+                if (index < 0 || index > Length)
                     throw new IndexOutOfRangeException($"Index {index} is out of range " +
-                                                       $"for range 0-{_rustyList->_length}");
+                                                       $"for range 0-{Length}");
                 _nativeArray[index] = value;
             }
         }
 
-        public unsafe void Dispose()
+        public void Dispose()
         {
             _nativeArray.Dispose();
             Marshal.FreeHGlobal(RustyListPointer);
