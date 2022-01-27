@@ -1,6 +1,6 @@
 #[repr(C)]
-pub struct RustyArray<'a, T> {
-    list: &'a mut RustyArrayInternal<T>,
+pub struct RustyArray<T> {
+    list: *mut RustyArrayInternal<T>,
 }
 
 #[repr(C)]
@@ -9,10 +9,10 @@ struct RustyArrayInternal<T> {
     length: usize,
 }
 
-impl<'a, T> RustyArray<'a, T> {
+impl<T> RustyArray<T> {
     pub fn get_array(&mut self) -> &mut [T] {
         return unsafe {
-            std::slice::from_raw_parts_mut(self.list.array, self.list.length)
+            std::slice::from_raw_parts_mut((*self.list).array, (*self.list).length)
         };
     }
 }
