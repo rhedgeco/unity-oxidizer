@@ -15,7 +15,7 @@ pub extern "C" fn test_list_populate(rusty_list: &mut RustyList<f32>) {
     let mut list = rusty_list.get_list_handler();
     list.clear();
 
-    for i in 0..list.length() {
+    for i in 0..list.capacity() {
         list.add(i as f32);
     }
 }
