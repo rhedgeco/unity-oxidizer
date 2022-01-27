@@ -1,0 +1,3 @@
+# ignore native plugin files
+unity_oxidizer_usage.dll
+unity_oxidizer_usage.dll.meta
