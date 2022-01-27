@@ -3,5 +3,9 @@ name = "unity_oxidizer_usage"
 version = "0.0.1"
 edition = "2021"
 
+[lib]
+name="unity_oxidizer_usage"
+crate-type=["cdylib"]
+
 [dependencies]
 unity_oxidizer = { path = "../unity_oxidizer" }
