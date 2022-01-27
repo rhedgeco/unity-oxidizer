@@ -11,3 +11,6 @@
 # whitelist only important rust files and directories
 !/src/
 !Cargo.toml
+
+# whitelist windows build and move script
+!build_and_move.bat
