@@ -14,8 +14,7 @@ impl<T> RustyList<T> {
     pub fn get_list_handler(&mut self) -> RustyListHandler<T> {
         return unsafe {
             RustyListHandler {
-                array: std::slice::from_raw_parts_mut(
-                    self.array, self.capacity),
+                array: std::slice::from_raw_parts_mut(self.array, self.capacity),
                 source: self,
             }
         };
