@@ -1,40 +1,67 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Oxidizer.Collections.RustyCollections;
-using Oxidizer.Collections.RustyCollections.Internal;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
 namespace Oxidizer.Collections
 {
-    public class ListOxidizer<T> : IDisposable where T : unmanaged
+    public class ListOxidizer<T> : IDisposable, IEnumerable<T> where T : unmanaged
     {
+        private unsafe RustyList* _rustyList;
         private NativeArray<T> _nativeArray;
-        private readonly int _capacity;
 
-        public RustyList<T> RustyList { get; }
-        public NativeArray<T> ExtractedNativeArray => _nativeArray.GetSubArray(0, _capacity);
+        public unsafe int Length => _rustyList->_length;
+        public IntPtr RustyListPointer { get; }
+        public unsafe NativeArray<T> ExtractedNativeArray => _nativeArray.GetSubArray(0, _rustyList->_length);
 
         public unsafe ListOxidizer(int capacity)
         {
-            _capacity = capacity;
-            _nativeArray = new NativeList<T>(_capacity, Allocator.Persistent);
+            _nativeArray = new NativeArray<T>(capacity, Allocator.Persistent);
 
-            int rustySize = Marshal.SizeOf<RustyListInternal>();
-            IntPtr unmanagedPointer = Marshal.AllocHGlobal(rustySize);
-            RustyListInternal* rustyList = (RustyListInternal*) unmanagedPointer;
-            rustyList->_array = (IntPtr) _nativeArray.GetUnsafePtr();
-            rustyList->_length = 0;
-            rustyList->_capacity = (UIntPtr) _capacity;
-
-            RustyList = new RustyList<T> {_internalRustyList = unmanagedPointer};
+            int rustySize = Marshal.SizeOf<RustyList>();
+            RustyListPointer = Marshal.AllocHGlobal(rustySize);
+            _rustyList = (RustyList*) RustyListPointer;
+            _rustyList->_array = (IntPtr) _nativeArray.GetUnsafePtr();
+            _rustyList->_length = 0;
+            _rustyList->_capacity = (UIntPtr) capacity;
         }
 
-        public void Dispose()
+        public unsafe T this[int index]
         {
-            Marshal.FreeHGlobal(RustyList._internalRustyList);
-            if (_nativeArray.IsCreated)
-                _nativeArray.Dispose();
+            get
+            {
+                if (index < 0 || index > _rustyList->_length)
+                    throw new IndexOutOfRangeException($"Index {index} is out of range " +
+                                                       $"for range 0-{_rustyList->_length}");
+                return _nativeArray[index];
+            }
+
+            set
+            {
+                if (index < 0 || index > _rustyList->_length)
+                    throw new IndexOutOfRangeException($"Index {index} is out of range " +
+                                                       $"for range 0-{_rustyList->_length}");
+                _nativeArray[index] = value;
+            }
+        }
+
+        public unsafe void Dispose()
+        {
+            _nativeArray.Dispose();
+            Marshal.FreeHGlobal(RustyListPointer);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new ListOxidizerEnumerator<T>(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

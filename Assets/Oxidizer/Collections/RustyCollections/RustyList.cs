@@ -4,9 +4,10 @@ using System.Runtime.InteropServices;
 namespace Oxidizer.Collections.RustyCollections
 {
     [StructLayout(LayoutKind.Sequential)]
-    // ReSharper disable once UnusedTypeParameter
-    public struct RustyList<T> where T : unmanaged
+    internal struct RustyList
     {
-        internal IntPtr _internalRustyList;
+        public IntPtr _array;
+        public int _length;
+        public UIntPtr _capacity;
     }
 }
