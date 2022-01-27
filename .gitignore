@@ -7,12 +7,12 @@
 !.gitattributes
 !LICENSE.md
 !README.md
+!/ReadmeResources/
 
 # whitelist only important unity directories
 !/Assets/
 !/ProjectSettings/
 !/Packages/
-!/ReadmeResources/
 
 # whitelist rust workspace
 !/RustWorkspace/
