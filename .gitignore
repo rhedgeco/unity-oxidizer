@@ -13,3 +13,6 @@
 !/ProjectSettings/
 !/Packages/
 !/ReadmeResources/
+
+# whitelist rust workspace
+!/RustWorkspace/
