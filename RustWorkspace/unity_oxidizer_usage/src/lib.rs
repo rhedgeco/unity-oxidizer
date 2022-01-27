@@ -11,8 +11,8 @@ pub extern "C" fn test_array_populate(rusty_array: &mut RustyArray<f32>) {
 }
 
 #[no_mangle]
-pub extern "C" fn test_list_populate(rusty_array: &mut RustyList<f32>) {
-    let mut list = rusty_array.get_list_handler();
+pub extern "C" fn test_list_populate(rusty_list: &mut RustyList<f32>) {
+    let mut list = rusty_list.get_list_handler();
     list.clear();
 
     for i in 0..list.length() {
