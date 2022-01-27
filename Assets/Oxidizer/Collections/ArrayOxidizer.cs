@@ -13,6 +13,8 @@ namespace Oxidizer.Collections
         public IntPtr RustyArrayPointer { get; }
         public NativeArray<T> NativeArray { get; }
 
+        public bool HasBeenDisposed => !NativeArray.IsCreated;
+
         public unsafe ArrayOxidizer(int size)
         {
             NativeArray = new NativeArray<T>(size, Allocator.Persistent);

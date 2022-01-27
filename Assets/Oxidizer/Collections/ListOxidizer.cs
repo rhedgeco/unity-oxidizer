@@ -16,6 +16,8 @@ namespace Oxidizer.Collections
         public unsafe int Length => _rustyList->_length;
         public IntPtr RustyListPointer { get; }
         public NativeArray<T> ExtractedNativeArray => _nativeArray.GetSubArray(0, Length);
+        
+        public bool HasBeenDisposed => !_nativeArray.IsCreated;
 
         public unsafe ListOxidizer(int capacity)
         {
