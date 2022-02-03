@@ -14,11 +14,13 @@ public class TestOxidizer : MonoBehaviour
 
     private ArrayOxidizer<float> _array;
     private ListOxidizer<float> _list;
+    private TreeOxidizer<float> _tree;
 
     private void Awake()
     {
         _array = new ArrayOxidizer<float>(5);
         _list = new ListOxidizer<float>(5);
+        _tree = new TreeOxidizer<float>(4, 2);
         
         TestArrayPopulate(_array.RustyArrayPointer);
         TestListPopulate(_list.RustyListPointer);
@@ -42,5 +44,6 @@ public class TestOxidizer : MonoBehaviour
     {
         _array.Dispose();
         _list.Dispose();
+        _tree.Dispose();
     }
 }
